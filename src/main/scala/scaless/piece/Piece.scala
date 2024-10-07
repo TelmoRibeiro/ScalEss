@@ -137,7 +137,28 @@ case class Pawn(override val color: String) extends Piece(color):
   def position: (Int, Int) = null
 
   def moves: List[(Int, Int)] =
-    ???
+    val currentRow = position._1
+    val currentCol = position._2
+
+    val forwardMoves =
+      if this.color == "White" && currentRow - 1 >= 0 then // could get coordinates from scaless.board.Board
+        List((currentRow - 1, currentCol))
+      else if this.color == "Black" && currentRow + 1 <  8 then // could get coordinates from scaless.board.Board
+        List((currentRow + 1, currentCol))
+      else Nil
+
+    def isFirstMove = (this.color == "White" && currentRow == 6) || (this.color == "Black" && currentRow == 1) // could get coordinates from scaless.board.Board
+
+    val initialMoves =
+      if isFirstMove then
+        if this.color == "White" then
+          List((currentRow - 2, currentCol))
+        else if this.color == "Black" then
+          List((currentRow + 2, currentCol))
+        else Nil
+      else Nil
+
+    initialMoves ++ forwardMoves
     // gotta remove all illegal moves
   end moves
 end Pawn
